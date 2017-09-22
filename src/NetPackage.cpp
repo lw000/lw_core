@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <log4z/log4z.h>
-
 namespace lwstar
 {
 	static const int C_NETHEAD_SIZE = sizeof(NetHead);
@@ -65,9 +63,7 @@ namespace lwstar
 				::memcpy(&this->_buf[C_NETHEAD_SIZE], (void*)msg, size);
 			}
 			else {
-				char buf[256];
-				sprintf(buf, "size: %d, NetHead: [cmd: %6d size: %6d ctime: %6d]", this->_size, this->_head.cmd, this->_head.size, this->_head.ctime);
-				LOGD(buf);
+				printf("size: %d, NetHead: [cmd: %6d size: %6d ctime: %6d]", this->_size, this->_head.cmd, this->_head.size, this->_head.ctime);
 			}
 		} while (0);
 
