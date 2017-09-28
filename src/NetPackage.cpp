@@ -9,17 +9,17 @@ namespace lwstar
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	NetPackage::NetPackage() : _size(0)
+	NetPackage::NetPackage() : _size(0), _buf(NULL)
 	{
 		_buf = NULL;
 	}
 
-	NetPackage::NetPackage(int cmd, void* msg, int size) : NetPackage()
+	NetPackage::NetPackage(int cmd, void* msg, int size) : _size(0), _buf(NULL)
 	{
 		this->setMessage(cmd, msg, size);
 	}
 
-	NetPackage::NetPackage(const NetHead* head) : NetPackage()
+	NetPackage::NetPackage(const NetHead* head) : _size(0), _buf(NULL)
 	{
 		if (head != NULL) {
 			this->_head = *head;
