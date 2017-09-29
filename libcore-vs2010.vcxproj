@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\NetHead.h" />
-    <ClInclude Include="include\NetPackage.h" />
+    <ClInclude Include="include\cache_queue.h" />
+    <ClInclude Include="include\net_core.h" />
+    <ClInclude Include="include\net_package.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\NetHead.cpp" />
-    <ClCompile Include="src\NetPackage.cpp" />
+    <ClCompile Include="src\cache_queue.cpp" />
+    <ClCompile Include="src\net_core.cpp" />
+    <ClCompile Include="src\net_package.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F7E4E090-0BBB-4722-8C19-B106E21048CD}</ProjectGuid>
@@ -97,7 +99,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\include;..\lw_core\include;..\lw_common\include;..\lw_common\json;..\..\cpp\libevent;..\..\cpp\libevent\include;..\..\cpp\libevent\build\vs2013\include;..\..\cpp\libevent\WIN32-Code;..\..\cpp\nanomsg\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\include;..\lw_common\include;..\..\cross-common\prebuilt-dll-2-9-1-release\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -127,7 +129,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\libutils;..\core;..\json;..\common;..\..\libevent\;..\..\libevent\include;..\..\libevent\build\vs2013\include;..\..\libevent\WIN32-Code;..\..\nanomsg\src;..\..\log4z</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\include;..\lw_common\include;..\..\cross-common\prebuilt-dll-2-9-1-release\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

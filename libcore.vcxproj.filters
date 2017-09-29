@@ -9,18 +9,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\NetHead.h">
+    <ClInclude Include="include\cache_queue.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\NetPackage.h">
+    <ClInclude Include="include\net_package.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\net_core.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\NetHead.cpp">
+    <ClCompile Include="src\cache_queue.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\NetPackage.cpp">
+    <ClCompile Include="src\net_package.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net_core.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

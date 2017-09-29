@@ -6,11 +6,30 @@
 #include <iostream>
 #include <string>
 
-#include "NetHead.h"
-
 namespace lwstar
 {
 	class NetPackage;
+
+#pragma  pack(1)
+	typedef struct tagNetHead
+	{
+		friend std::ostream& operator<<(std::ostream & os, tagNetHead & o);
+
+	public:
+		int	size;			// 数据包大小
+		unsigned short	v;				// 通讯版本
+		int	cmd;			// 指令
+		unsigned int	ctime;			// 发送时间
+
+	public:
+		tagNetHead();
+
+	public:
+		std::string debug();
+
+	}  NetHead;
+
+#pragma pack()
 
 	class NetPackage
 	{
@@ -35,7 +54,7 @@ namespace lwstar
 		std::string debug();
 
 	private:
-		NetHead _head;
+		NetHead* _head;
 		char *_buf;
 		unsigned int _size;
 	};
