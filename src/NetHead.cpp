@@ -47,7 +47,7 @@ namespace lwstar
 		unsigned char v1;
 		unsigned char v2;
 		__package_version(this->v, v1, v2);
-		sprintf(buf, "NetHead [(size: %d), (cmd: %d), (time: %u), (v: %d.%d)]", this->size, this->cmd, this->ctime, v1, v2);
+		sprintf(buf, "NetHead >> size: %d, cmd: %d, time: %u, v: %d.%d", this->size, this->cmd, this->ctime, v1, v2);
 		return std::string(buf);
 	}
 }
