@@ -42,7 +42,8 @@ int NetCore::parse(const char * buf, int size, LW_PARSE_DATA_CALLFUNC func, void
 	if (size <= 0) return -1;
 	if (NULL == buf) return -2;
 
-	clock_t t = clock();
+//	clock_t t = clock();
+
 	{
 		int dqs = 0;
 		{
@@ -102,12 +103,12 @@ int NetCore::parse(const char * buf, int size, LW_PARSE_DATA_CALLFUNC func, void
 		}
 	}	
 	
-	clock_t t1 = clock();
-	{
-		char s[512];
-		sprintf(s, "NetCore::parse time [%f]", ((double)t1 - t) / CLOCKS_PER_SEC);
-		LOGD(s);
-	}
+// 	clock_t t1 = clock();
+// 	{
+// 		char s[512];
+// 		sprintf(s, "NetCore::parse time [%f]", ((double)t1 - t) / CLOCKS_PER_SEC);
+// 		LOGD(s);
+// 	}
 
 	return 0;
 }
