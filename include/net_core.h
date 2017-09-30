@@ -26,16 +26,15 @@ public:
 
 public:
 	int send(int cmd, void* object, int objectSize, std::function<int(LW_NET_MESSAGE* p)> func);
-	int parse(const char * buf, int size, LW_PARSE_DATA_CALLFUNC func, void* userdata);
+	int parse(const char * buf, int size, LW_PARSE_DATA_CALLFUNC callback, void* userdata);
 	
 private:
 	NetCore(const NetCore&);
 	NetCore& operator=(const NetCore&);
 
 private:
-	CacheQueue	_cq;
-	lw_fast_lock _read_m;
-// 	lw_fast_lock _send_m;
+	CacheQueue	_cacheQueue;
+	lw_fast_lock _lock;
 };
 
 #endif // !__net_core_h__
