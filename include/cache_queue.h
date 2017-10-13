@@ -1,7 +1,6 @@
 #ifndef __cache_queue_h__
 #define __cache_queue_h__
 
-#include "common_type.h"
 #include <vector>
 #include <queue>
 #include <stddef.h>

@@ -6,7 +6,7 @@
 #include "net_package.h"
 #include "log4z.h"
 
-static const lw_int32 C_NETHEAD_SIZE = sizeof(NetHead);
+static const int C_NETHEAD_SIZE = sizeof(NetHead);
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
