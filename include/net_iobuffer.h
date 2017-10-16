@@ -34,7 +34,7 @@ private:
 private:
 	CacheQueue	_cacheQueue;
 	lw_fast_lock _rlock;
-	lw_fast_lock _wlock;
+/*	lw_fast_lock _wlock;*/
 };
 
 #endif // !__net_core_h__

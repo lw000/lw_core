@@ -28,7 +28,7 @@ int NetIOBuffer::send(int cmd, void* object, int objectSize, std::function<int(N
 		netMsg.size = msg->getSize();
 
 		{
-			lw_lock_guard l(&_wlock);
+/*			lw_lock_guard l(&_wlock);*/
 			c = func(&netMsg);
 		}
 
