@@ -18,6 +18,9 @@
     <ClInclude Include="include\net_iobuffer.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\queue.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cache_queue.cpp">
@@ -27,6 +30,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\net_iobuffer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\queue.c">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

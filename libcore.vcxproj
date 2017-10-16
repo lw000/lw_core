@@ -22,11 +22,13 @@
     <ClInclude Include="include\cache_queue.h" />
     <ClInclude Include="include\net_package.h" />
     <ClInclude Include="include\net_iobuffer.h" />
+    <ClInclude Include="include\queue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cache_queue.cpp" />
     <ClCompile Include="src\net_package.cpp" />
     <ClCompile Include="src\net_iobuffer.cpp" />
+    <ClCompile Include="src\queue.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F7E4E090-0BBB-4722-8C19-B106E21048CD}</ProjectGuid>
