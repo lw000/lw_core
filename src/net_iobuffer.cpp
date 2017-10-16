@@ -52,8 +52,9 @@ int NetIOBuffer::parse(const char * buf, int size, PARSE_DATA_CALLFUNC call, voi
 	}
 
 	int ret = -3;
-	clock_t t = clock();
-	
+
+// 	clock_t t = clock();
+
 	{
 		lw_lock_guard l(&_rlock);
 		_cacheQueue.push(const_cast<char*>(buf), size);
@@ -63,13 +64,13 @@ int NetIOBuffer::parse(const char * buf, int size, PARSE_DATA_CALLFUNC call, voi
 			return -3;
 			LOGFMTD("not a complete data packet [cache_size:%d head_size:%d]", cacheLength, C_NETHEAD_SIZE);
 		}
-		
+
 		do
 		{
 			NetHead *nh = (NetHead*)_cacheQueue.front();
-			
+
 			if (cacheLength < nh->size) {
-				//LOGFMTD("not a complete data packet [cache_size:%d, head_size:%d, cmd:%d]", cache_size, nh->size, nh->cmd);
+				LOGFMTD("not a complete data packet [cache_size:%d, head_size:%d, cmd:%d]", cacheLength, nh->size, nh->cmd);
 				break;
 			}
 
@@ -82,44 +83,13 @@ int NetIOBuffer::parse(const char * buf, int size, PARSE_DATA_CALLFUNC call, voi
 				call(nmsg->getHead()->cmd, nmsg->getBuf(), nmsg->getSize(), userdata);
 			}
 			delete nmsg;
-			
+
 			_cacheQueue.pop(nh->size);
 			cacheLength = (int)_cacheQueue.size();
 		} while (cacheLength >= C_NETHEAD_SIZE);
-		
 
-// 		if (C_NETHEAD_SIZE <= cache_size) {
-// 			do
-// 			{				
-// 				NetHead *nh = (NetHead*)_cacheQueue.front();
-// 				if (cache_size < nh->size) {
-// 					//LOGFMTD("not a complete data packet [cache_size:%d, head_size:%d, cmd:%d]", cache_size, nh->size, nh->cmd);
-// 					break;
-// 				}
-// 
-// 				NetPackage* nmsg = new NetPackage(nh);
-// 				if (nullptr != nmsg) {
-// 					char* buf = _cacheQueue.front();
-// 					char* tbuf = &buf[C_NETHEAD_SIZE];
-// 					int tbuf_len = nh->size - C_NETHEAD_SIZE;
-// 					nmsg->setMessage(tbuf, tbuf_len);
-// 					call(nmsg->getHead()->cmd, nmsg->getBuf(), nmsg->getSize(), userdata);
-// 				}
-// 				delete nmsg;
-// 				_cacheQueue.pop(nh->size);
-// 				cache_size = (int)_cacheQueue.size();
-// 			} while (cache_size >= C_NETHEAD_SIZE);
-// 		}
-// 		else {
-// 			ret = -3;
-// 			LOGFMTD("not a complete data packet [cache_size:%d head_size:%d]", cache_size, C_NETHEAD_SIZE);
-// 		}
+// 		clock_t t1 = clock();
+// 		LOGFMTD("NetCore::parse time [%f]", ((double)t1 - t) / CLOCKS_PER_SEC);
 	}
-	
-	clock_t t1 = clock();
-	{
-		LOGFMTD("NetCore::parse time [%f]", ((double)t1 - t) / CLOCKS_PER_SEC);
-	}
-
 	return 0;
 }
