@@ -6,7 +6,7 @@
 #include "lock.h"
 
 
-#define SOCKET_CALLBACK(__selector__,__target__, ...) std::bind(&__selector__, __target__, std::placeholders::_1, ##__VA_ARGS__)
+//#define SOCKET_CALLBACK(__selector__,__target__, ...) std::bind(&__selector__, __target__, std::placeholders::_1, ##__VA_ARGS__)
 
 typedef void(*PARSE_DATA_CALLFUNC)(int cmd, char* buf, int bufsize, void* userdata);
 
@@ -34,7 +34,6 @@ private:
 private:
 	CacheQueue	_cacheQueue;
 	lw_fast_lock _rlock;
-/*	lw_fast_lock _wlock;*/
 };
 
 #endif // !__net_core_h__
