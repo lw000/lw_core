@@ -21,13 +21,13 @@ static void __package_version(unsigned short version, unsigned char &major, unsi
 	major = (version & 0x00FF);
 }
 
-std::ostream& operator<<(std::ostream & os, tagNetHead & o)
+std::ostream& operator<<(std::ostream & os, _tagNetHead & o)
 {
 	os << o.debug();
 	return os;
 }
 
-tagNetHead::tagNetHead()
+_tagNetHead::_tagNetHead()
 {
 	this->size = 0;			// 数据包大小
 	this->cmd = 0;			// 指令
@@ -35,13 +35,13 @@ tagNetHead::tagNetHead()
 	this->v = __make_package_version(1, 1);
 }
 
-std::string tagNetHead::debug()
+std::string _tagNetHead::debug()
 {
 	char buf[512];
 	unsigned char v1;
 	unsigned char v2;
 	__package_version(this->v, v1, v2);
-	sprintf(buf, "NetHead >> size:%d, cmd:%d, time:%u, v:%d.%d", this->size, this->cmd, this->ctime, v1, v2);
+	sprintf(buf, "size:%d,cmd:%d,time:%u,v:%d.%d", this->size, this->cmd, this->ctime, v1, v2);
 	return std::string(buf);
 }
 
@@ -101,23 +101,18 @@ int NetPackage::setMessage(int cmd, void* msg, int size)
 		return -1;
 	}
 
-	do
-	{
-		this->_size = size + C_NETHEAD_SIZE;
+	this->_head->size = size + C_NETHEAD_SIZE;
+	this->_head->cmd = cmd;
+	this->_head->ctime = (unsigned int)time(NULL);
+	this->_buf = (char*)malloc(this->_head->size * sizeof(char));
+	
+	::memcpy(this->_buf, this->_head, C_NETHEAD_SIZE);
+	
+	this->_size = this->_head->size;
 
-		this->_head->size = this->_size;
-		this->_head->cmd = cmd;
-		this->_head->ctime = (unsigned int)time(NULL);
-		this->_buf = (char*)malloc(this->_size * sizeof(char));
-		::memcpy(this->_buf, this->_head, C_NETHEAD_SIZE);
-
-		if ((NULL != msg) && (size > 0)) {
-			::memcpy(&this->_buf[C_NETHEAD_SIZE], (void*)msg, size);
-		}
-		else {
-			printf("size: %d, NetHead: [cmd: %6d size: %6d ctime: %6d]", this->_size, this->_head->cmd, this->_head->size, this->_head->ctime);
-		}
-	} while (0);
+	if ((NULL != msg) && (size > 0)) {
+		::memcpy(&this->_buf[C_NETHEAD_SIZE], (void*)msg, size);
+	}
 
 	return 0;
 }
@@ -125,7 +120,7 @@ int NetPackage::setMessage(int cmd, void* msg, int size)
 std::string NetPackage::debug()
 {
 	char buf[256];
-	sprintf(buf, "size: %d, NetHead: [cmd: %6d size: %6d ctime: %6d]", this->_size, this->_head->cmd, this->_head->size, this->_head->ctime);
+	sprintf(buf, "NetPackage:%s", this->_head->debug().c_str());
 	return std::string(buf);
 }
 

@@ -6,13 +6,15 @@
 #include <iostream>
 #include <string>
 
-class NetPackage;
 
-#pragma  pack(1)
+static const int NET_HEART_BEAT_PING = 1;
+static const int NET_HEART_BEAT_PONG = 2;
 
-typedef struct tagNetHead
+#pragma pack(1)
+
+typedef struct _tagNetHead
 {
-	friend std::ostream& operator<<(std::ostream & os, tagNetHead & o);
+	friend std::ostream& operator<<(std::ostream & os, _tagNetHead & o);
 
 public:
 	int	size;			// 数据包大小
@@ -21,12 +23,12 @@ public:
 	unsigned int ctime;	// 发送时间
 
 public:
-	tagNetHead();
+	_tagNetHead();
 
 public:
 	std::string debug();
 
-}  NetHead;
+} NetHead;
 
 #pragma pack()
 
