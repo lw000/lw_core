@@ -6,9 +6,8 @@
 #include <iostream>
 #include <string>
 
-
-static const int NET_HEART_BEAT_PING = 1;
-static const int NET_HEART_BEAT_PONG = 2;
+static const int NET_HEART_BEAT_PING = -10000;
+static const int NET_HEART_BEAT_PONG = -10001;
 
 #pragma pack(1)
 
