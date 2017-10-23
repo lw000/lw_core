@@ -56,7 +56,7 @@ int NetIOBuffer::parse(const char * buf, int size, PARSE_DATA_CALLFUNC call, voi
 // 	clock_t t = clock();
 
 	{
-		lw_lock_guard l(&_rlock);
+		lw_fast_lock_guard l(&_rlock);
 		_cacheQueue.push(const_cast<char*>(buf), size);
 		int cacheLength = (int)_cacheQueue.size();
 
