@@ -36,16 +36,19 @@ int NetIOBuffer::send(int cmd, void* object, int objectSize, std::function<int(N
 
 int NetIOBuffer::parse(const char * buf, int size, PARSE_DATA_CALLFUNC call, void* userdata)
 {
+	assert(size > 0);
 	if (size <= 0) {
 		LOGFMTD("size:%d less than 0.", size);
 		return -1;
 	}
-
+	
+	assert(NULL != buf);
 	if (NULL == buf) {
 		LOGFMTD("buf is null.");
-		return -2;
+		return -1;
 	}
 
+	assert(NULL != call);
 	if (NULL == call) {
 		LOGFMTD("callback is null.");
 		return -2;
@@ -56,21 +59,21 @@ int NetIOBuffer::parse(const char * buf, int size, PARSE_DATA_CALLFUNC call, voi
 // 	clock_t t = clock();
 
 	{
-		lw_fast_lock_guard l(&_rlock);
+		lw_fast_lock_guard l(_rlock);
 		_cacheQueue.push(const_cast<char*>(buf), size);
-		int cacheLength = (int)_cacheQueue.size();
+		int tmpCacheLength = (int)_cacheQueue.size();
 
-		if (cacheLength < C_NETHEAD_SIZE) {
+		if (tmpCacheLength < C_NETHEAD_SIZE) {
 			return -3;
-			LOGFMTD("not a complete data packet [cache_size:%d head_size:%d]", cacheLength, C_NETHEAD_SIZE);
+			LOGFMTD("not a complete data packet [cache_size:%d head_size:%d]", tmpCacheLength, C_NETHEAD_SIZE);
 		}
 
 		do
 		{
 			NetHead *nh = (NetHead*)_cacheQueue.front();
 
-			if (cacheLength < nh->size) {
-				LOGFMTD("not a complete data packet [cache_size:%d, head_size:%d, cmd:%d]", cacheLength, nh->size, nh->cmd);
+			if (tmpCacheLength < nh->size) {
+				LOGFMTD("not a complete data packet [cache_size:%d, head_size:%d, cmd:%d]", tmpCacheLength, nh->size, nh->cmd);
 				break;
 			}
 
@@ -85,8 +88,8 @@ int NetIOBuffer::parse(const char * buf, int size, PARSE_DATA_CALLFUNC call, voi
 			delete nmsg;
 
 			_cacheQueue.pop(nh->size);
-			cacheLength = (int)_cacheQueue.size();
-		} while (cacheLength >= C_NETHEAD_SIZE);
+			tmpCacheLength = (int)_cacheQueue.size();
+		} while (tmpCacheLength >= C_NETHEAD_SIZE);
 
 // 		clock_t t1 = clock();
 // 		LOGFMTD("NetCore::parse time [%f]", ((double)t1 - t) / CLOCKS_PER_SEC);

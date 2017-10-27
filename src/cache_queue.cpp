@@ -1,6 +1,7 @@
 #include "cache_queue.h"
 #include <algorithm>
 
+///////////////////////////////////////////////////////////////////////////////////////////
 CacheQueue::CacheQueue(void) {
 	
 }
@@ -9,16 +10,15 @@ CacheQueue::~CacheQueue(void) {
 	
 }
 
-int CacheQueue::push(char* buf, int size)
+void CacheQueue::push(char* buf, int size)
 {
-	if (buf == NULL) return -1;
-	if (size <= 0) return -2;
+	if (buf == NULL) return;
+	if (size <= 0) return;
 	int i = 0;
 	char* p = buf;
 	while (i++ < size) {
 		_cq.push_back(*p++);
 	}
-	return size;
 }
 
 void CacheQueue::pop(int size)
@@ -30,14 +30,13 @@ void CacheQueue::pop(int size)
 	std::vector<char>::iterator iter = _cq.erase(_cq.begin(), _cq.begin() + size);
 }
 
-void CacheQueue::front_copyto(char* buffer, int size) {
+void CacheQueue::copyto(char* buffer, int size) {
 	if (_cq.size() < size) { 
 		return;
 	}
 
 	char* p = buffer;
 	int i = 0;
-	/*for (auto v : _cq) {*/
 	std::for_each(_cq.begin(), _cq.end(), [&p, &i, &size](char c) {
 		if (i++ < size) {
 			*p++ = c;
@@ -45,7 +44,7 @@ void CacheQueue::front_copyto(char* buffer, int size) {
 	});
 }
 
-std::vector<char>* CacheQueue::front_copyto(std::vector<char>& dest, int size) {
+std::vector<char>* CacheQueue::copyto(std::vector<char>& dest, int size) {
 	if (_cq.size() < size)
 	{
 		return nullptr;
@@ -73,4 +72,64 @@ char* CacheQueue::front()
 void CacheQueue::clear()
 {
 	_cq.clear();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+NewCacheQueue::NewCacheQueue(size_t capacity) {
+	this->_queue = queue_init(capacity);
+}
+
+NewCacheQueue::~NewCacheQueue() {
+	this->clear();
+	queue_dispose(this->_queue);
+}
+
+void NewCacheQueue::push(char c) {
+	char* p = new char(c);
+	queue_add(this->_queue, p);
+}
+
+void NewCacheQueue::push(const char* buf, int size) {
+	for (int i = 0; i < size; i++) {
+		char* p = new char(buf[i]);
+		queue_add(this->_queue, p);
+	}
+}
+
+char* NewCacheQueue::front() {
+	char* p = (char*)queue_peek(this->_queue);
+	return p;
+}
+
+void NewCacheQueue::pop() {
+	char* p = (char*)queue_remove(this->_queue);
+	delete p;
+}
+
+void NewCacheQueue::pop(int size) {
+	for (int i = 0; i < size; i++) {
+		char* p = (char*)queue_remove(this->_queue);
+		delete p;
+	}
+}
+
+void NewCacheQueue::copyto(char* buffer, int size) {
+	for (int i = 0; i < size; i++) {
+		char* p = (char*)queue_remove(this->_queue);
+		buffer[i] = *p;
+		delete p;
+	}
+}
+
+size_t NewCacheQueue::size() const {
+	return this->_queue->size;
+}
+
+void NewCacheQueue::clear() {
+	char* p = nullptr;
+	while ((p = (char*)queue_remove(this->_queue)) != nullptr)
+	{
+		delete p;
+	}
 }
