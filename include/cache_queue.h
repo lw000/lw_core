@@ -22,14 +22,16 @@ public:
 	~CacheQueue(void);
 
 public:
+	char* front();
 	void push(char* buf, int size);
 	void pop(int size);
 
 public:
-	size_t size() const;
-	char* front();
 	void copyto(char* buffer, int size);
 	std::vector<char>* copyto(std::vector<char>& dest, int size);
+
+public:
+	size_t size() const;
 	void clear();
 
 private:

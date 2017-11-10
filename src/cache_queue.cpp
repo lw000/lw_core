@@ -86,14 +86,12 @@ NewCacheQueue::~NewCacheQueue() {
 }
 
 void NewCacheQueue::push(char c) {
-	char* p = new char(c);
-	queue_add(this->_queue, p);
+	queue_add(this->_queue, new char(c));
 }
 
 void NewCacheQueue::push(const char* buf, int size) {
 	for (int i = 0; i < size; i++) {
-		char* p = new char(buf[i]);
-		queue_add(this->_queue, p);
+		queue_add(this->_queue, new char(buf[i]));
 	}
 }
 
