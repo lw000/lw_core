@@ -21,7 +21,7 @@ queue_t* queue_init(size_t capacity);
 void queue_dispose(queue_t* queue);
 
 // Enqueues an item in the queue. Returns 0 if the add succeeded or -1 if it
-// failed. If -1 is returned, errno will be set.
+// failed. If -1 is returned, errno will be set.z
 int queue_add(queue_t* queue, void* value);
 
 // Dequeues an item from the head of the queue. Returns NULL if the queue is
