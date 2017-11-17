@@ -27,7 +27,7 @@ static /*inline*/ int queue_at_capacity(queue_t* queue)
 // number of items that can be in the queue at one time. A capacity greater
 // than INT_MAX / sizeof(void*) is considered an error. Returns NULL if
 // initialization failed.
-queue_t* queue_init(size_t capacity)
+queue_t* lw_queue_init(size_t capacity)
 {
     if (capacity > INT_MAX / sizeof(void*))
     {
@@ -54,7 +54,7 @@ queue_t* queue_init(size_t capacity)
 }
 
 // Releases the queue resources.
-void queue_dispose(queue_t* queue)
+void lw_queue_dispose(queue_t* queue)
 {
     free(queue->data);
     free(queue);
@@ -62,7 +62,7 @@ void queue_dispose(queue_t* queue)
 
 // Enqueues an item in the queue. Returns 0 is the add succeeded or -1 if it
 // failed. If -1 is returned, errno will be set.
-int queue_add(queue_t* queue, void* value)
+int lw_queue_add(queue_t* queue, void* value)
 {
     if (queue_at_capacity(queue))
     {
@@ -84,7 +84,7 @@ int queue_add(queue_t* queue, void* value)
 
 // Dequeues an item from the head of the queue. Returns NULL if the queue is
 // empty.
-void* queue_remove(queue_t* queue)
+void* lw_queue_remove(queue_t* queue)
 {
     void* value = NULL;
 
@@ -104,7 +104,7 @@ void* queue_remove(queue_t* queue)
 
 // Returns, but does not remove, the head of the queue. Returns NULL if the
 // queue is empty.
-void* queue_peek(queue_t* queue)
+void* lw_queue_peek(queue_t* queue)
 {
     return queue->size ? queue->data[queue->next] : NULL;
 }
